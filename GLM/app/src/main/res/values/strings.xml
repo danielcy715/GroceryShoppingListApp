@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">GLM</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_add">Add</string>
+    <string name="action_edit">Edit Name</string>
+    <string name="action_add_by_type">Add By Type</string>
+    <string name="action_search">Search</string>
+    <string name="action_deleteAll">Delete All</string>
+    <string name="action_deleteSelected">Delete Selected</string>
+    <string name="checkbox">CheckBox</string>
+    <string name="textview">TextView</string>
+    <string name="title_activity_viewItemType">View Type</string>
+    <string name="title_activity_list">ListActivity</string>
+    <string name="title_activity_viewItemName">View Name</string>
+</resources>

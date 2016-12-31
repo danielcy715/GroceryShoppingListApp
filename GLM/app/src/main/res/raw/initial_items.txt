@@ -1,0 +1,13 @@
+Apple, Fruits, Nos, 2, false, false
+Orange, Fruits, Nos, 2, false, false
+Pineapple, Fruits, Nos, 2, false, false
+Potato, Vegetables, lbs, 2, false, false
+Tomato, Vegetables, lbs, 2, false, false
+Brinjal, Vegetables, lbs, 2, false, false
+Cabbage, Vegetables, lbs, 2, false, false
+Kix, Cereal, boxes, 1, false, false
+Chicken, Meat, lbs, 1, false, false
+Milk, Dairy, gals, 1, false, false
+Cheetos, Snacks, bags, 1, false, false
+Waffles, FrozenFood, servings, 1, false, false
+ClamChowder, CannedFood, cans, 1, false, false

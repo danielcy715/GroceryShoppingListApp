@@ -1,0 +1,241 @@
+Index: app/src/main/java/edu/gatech/seclass/glm/ViewItemNameActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/edu/gatech/seclass/glm/ViewItemNameActivity.java	(revision af10a8d97646bc2b0409581baf9609ebf4196dcb)
++++ app/src/main/java/edu/gatech/seclass/glm/ViewItemNameActivity.java	(revision )
+@@ -22,6 +22,7 @@
+ import android.widget.TextView;
+ import android.widget.Toast;
+ 
++import java.lang.reflect.Array;
+ import java.util.ArrayList;
+ import java.util.Arrays;
+ import java.util.Collections;
+@@ -45,6 +46,7 @@
+         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+         Intent intent = getIntent();
+         selglPosition = intent.getIntExtra("position", -1);
++        // determine previous activity from intent and perform respective searches
+         String selItemType = intent.getStringExtra("selItemType");
+         String selSearchName = intent.getStringExtra("selSearchName");
+         if (selItemType != null){
+@@ -53,7 +55,7 @@
+         }
+         else if (selSearchName != null){
+             setTitle(selSearchName);
+-            displayItemNamesFromSearch(selSearchName);
++            handleItemSearch(selSearchName);
+         }
+     }
+ 
+@@ -87,7 +89,7 @@
+ 
+     }
+ 
+-    private void displayItemNamesFromSearch(String searchName) {
++    private void handleItemSearch(String searchName) {
+         items = new ArrayList<Item>();
+ 
+         DatabaseStore dbStore = DatabaseStore.getInstance();
+@@ -97,9 +99,21 @@
+         for (Item item:items) {
+             itemNames.add(item.getName());
+         }
+-//        itemTypes.addAll(dbStore.getItemTypes1());
++        if(items.size() == 0) {
++            Context context = getApplicationContext();
++            CharSequence text = "Item Name does not exist.";
++            int duration = Toast.LENGTH_LONG;
++            Toast toast = Toast.makeText(context, text, duration);
++            toast.show();
++        }
++        else {
++            displayItemNamesFromSearch(itemNames);
++        }
++    }
+ 
+-//        ArrayList<String> itemTypesArr = new ArrayList<String>(Arrays.asList(itemTypes));
++
++    private void displayItemNamesFromSearch(ArrayList<String> itemNames) {
++
+         dataAdapter = new MyCustomAdapter(this,
+                 R.layout.simple_list_view, R.id.item,itemNames);
+ 
+Index: app/src/main/java/edu/gatech/seclass/glm/SearchItemNameActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/edu/gatech/seclass/glm/SearchItemNameActivity.java	(revision af10a8d97646bc2b0409581baf9609ebf4196dcb)
++++ app/src/main/java/edu/gatech/seclass/glm/SearchItemNameActivity.java	(revision )
+@@ -17,7 +17,7 @@
+     protected void onCreate(Bundle savedInstanceState) {
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_search_name);
+-        searchText = (EditText) findViewById(R.id.searchText);
++        searchText = (EditText) findViewById(R.id.nameText);
+         Intent intent = getIntent();
+         selglPosition = intent.getIntExtra("position", -1);
+         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+Index: app/src/main/res/layout/content_search_name.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/content_search_name.xml	(revision af10a8d97646bc2b0409581baf9609ebf4196dcb)
++++ app/src/main/res/layout/content_search_name.xml	(revision )
+@@ -38,14 +38,14 @@
+         android:layout_alignParentStart="true"
+         android:layout_marginStart="54dp"
+         android:layout_marginTop="47dp"
+-        android:id="@+id/searchText" />
++        android:id="@+id/nameText" />
+ 
+     <Button
+         android:text="Search"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+-        android:layout_alignBottom="@+id/searchText"
+-        android:layout_toEndOf="@+id/searchText"
++        android:layout_alignBottom="@+id/nameText"
++        android:layout_toEndOf="@+id/nameText"
+         android:id="@+id/buttonSearch" />
+ 
+ </RelativeLayout>
+Index: app/src/main/java/edu/gatech/seclass/glm/DatabaseStore.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/edu/gatech/seclass/glm/DatabaseStore.java	(revision af10a8d97646bc2b0409581baf9609ebf4196dcb)
++++ app/src/main/java/edu/gatech/seclass/glm/DatabaseStore.java	(revision )
+@@ -1,10 +1,12 @@
+ package edu.gatech.seclass.glm;
+ 
+ import java.lang.reflect.Array;
++import java.net.URL;
+ import java.util.ArrayList;
+ import java.util.Collections;
+ import java.util.Comparator;
+ import java.util.List;
++import java.io.*;
+ 
+ /**
+  * Created by gopalramanujam on 10/10/16.
+@@ -23,6 +25,11 @@
+         itemTypes.append(", Cereal");
+         itemTypes.append(", Alcohol");
+         itemTypes.append(", Vegetables");
++        itemTypes.append(", Meat");
++        itemTypes.append(", Dairy");
++        itemTypes.append(", Snacks");
++        itemTypes.append(", FrozenFood");
++        itemTypes.append(", CannedFood");
+         populateDummyList();
+     }
+ 
+@@ -117,7 +124,8 @@
+ 
+ 
+     public void populateDummyList() {
+-
++        //addItemsFromFile("initialItems.txt");
++        // need to set correct file path
+         addItem("Apple", "Fruits", "Nos", 2, false, false);
+         addItem("Banana", "Fruits", "Nos", 2, false, false);
+         addItem("Orange", "Fruits",  "Nos", 2, false, false);
+@@ -126,7 +134,57 @@
+         addItem("Tomato", "Vegetables", "lbs", 2, false, false);
+         addItem("Brinjal", "Vegetables", "lbs", 2, false, false);
+         addItem("Cabbage", "Vegetables", "lbs", 2, false, false);
++        addItem("Kix", "Cereal", "boxes", 1, false, false);
++        addItem("Chicken", "Meat", "lbs", 1, false, false);
++        addItem("Milk", "Dairy", "gals", 1, false, false);
++        addItem("Cheetos", "Snacks", "bags", 1, false, false);
++        addItem("Waffles", "FrozenFood", "servings", 1, false, false);
++        addItem("ClamChowder", "CannedFood", "cans", 1, false, false);
++
+     }
+ 
++    public void addItemsFromFile(String fileName)
++    {
++        BufferedReader br = null;
++        try{
++            // Todo: set correct file path
++            String filename = "initialItems.txt";
++            String workingDirectory = System.getProperty("user.dir");
++            String absoluteFilePath = "";
++            //absoluteFilePath = workingDirectory + System.getProperty("file.separator") + filename;
++            absoluteFilePath = workingDirectory + File.separator + filename;
++
++            System.out.println("Final filepath : " + absoluteFilePath);
++            File itemsFile = new File(absoluteFilePath);
++            br = new BufferedReader(new FileReader(itemsFile));
++
++            //One way of reading the file
++            System.out.println("Reading the file using readLine() method:");
++            String contentLine = br.readLine();
++            String[] itemAttr = contentLine.split(", ");
++            while (contentLine != null) {
++
++                addItem(itemAttr[0], itemAttr[1], itemAttr[2], Double.parseDouble(itemAttr[3]),
++                        Boolean.parseBoolean(itemAttr[4]), Boolean.parseBoolean(itemAttr[5]));
++                System.out.println(contentLine);
++                contentLine = br.readLine();
++            }
++        }
++        catch (IOException ioe)
++        {
++            ioe.printStackTrace();
++        }
++        finally
++        {
++            try {
++                if (br != null)
++                    br.close();
++            }
++            catch (IOException ioe)
++            {
++                System.out.println("Error in closing the BufferedReader");
++            }
++        }
++    }
+ 
+ }
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision af10a8d97646bc2b0409581baf9609ebf4196dcb)
++++ .idea/gradle.xml	(revision )
+@@ -5,7 +5,7 @@
+       <GradleProjectSettings>
+         <option name="distributionType" value="LOCAL" />
+         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+-        <option name="gradleHome" value="C:\Program Files\Android\Android Studio\gradle\gradle-2.14.1" />
++        <option name="gradleHome" value="$APPLICATION_HOME_DIR$/gradle/gradle-2.14.1" />
+         <option name="modules">
+           <set>
+             <option value="$PROJECT_DIR$" />
+\ No newline at end of file
+Index: app/src/main/java/edu/gatech/seclass/glm/ViewItemTypeActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/edu/gatech/seclass/glm/ViewItemTypeActivity.java	(revision af10a8d97646bc2b0409581baf9609ebf4196dcb)
++++ app/src/main/java/edu/gatech/seclass/glm/ViewItemTypeActivity.java	(revision )
+@@ -31,8 +31,8 @@
+         setContentView(R.layout.activity_view_type);
+         listView = (ListView) findViewById(R.id.vtlistView);
+         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+-        //setSupportActionBar(toolbar);
+-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
++        setSupportActionBar(toolbar);
++        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+         Intent intent = getIntent();
+         selglPosition = intent.getIntExtra("position", -1);
+         displayitemTypes();

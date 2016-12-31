@@ -1,0 +1,249 @@
+Index: app/src/main/java/edu/gatech/seclass/glm/ViewItemNameActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/edu/gatech/seclass/glm/ViewItemNameActivity.java	(revision 908c00c788e0790550fb6e19d73750a25da28428)
++++ app/src/main/java/edu/gatech/seclass/glm/ViewItemNameActivity.java	(revision )
+@@ -60,7 +60,7 @@
+     private void displayItemNamesFromType(String type) {
+         items = new ArrayList<Item>();
+ 
+-        DatabaseStore dbStore = DatabaseStore.getInstance();
++        DatabaseStore dbStore = DatabaseStore.getInstance(getApplicationContext());
+         items = dbStore.getItemsByType(type);
+ 
+         ArrayList<String> itemNames = new ArrayList<String>();
+@@ -90,7 +90,7 @@
+     private void displayItemNamesFromSearch(String searchName) {
+         items = new ArrayList<Item>();
+ 
+-        DatabaseStore dbStore = DatabaseStore.getInstance();
++        DatabaseStore dbStore = DatabaseStore.getInstance(getApplicationContext());
+         items = dbStore.getSimilarItem(searchName);
+ 
+         ArrayList<String> itemNames = new ArrayList<String>();
+Index: app/src/main/java/edu/gatech/seclass/glm/initialItems.txt
+===================================================================
+--- app/src/main/java/edu/gatech/seclass/glm/initialItems.txt	(revision 908c00c788e0790550fb6e19d73750a25da28428)
++++ app/src/main/res/raw/initial_items.txt	(revision )
+@@ -1,0 +1,0 @@
+Index: app/src/main/java/edu/gatech/seclass/glm/SearchItemNameActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/edu/gatech/seclass/glm/SearchItemNameActivity.java	(revision 908c00c788e0790550fb6e19d73750a25da28428)
++++ app/src/main/java/edu/gatech/seclass/glm/SearchItemNameActivity.java	(revision )
+@@ -38,7 +38,7 @@
+             public void onClick(View v) {
+                 String searchTextValue = searchText.getText().toString();
+ 
+-                DatabaseStore dbStore = DatabaseStore.getInstance();
++                DatabaseStore dbStore = DatabaseStore.getInstance(getApplicationContext());
+                 ArrayList<Item> items = dbStore.getSimilarItem(searchTextValue);
+ 
+                 // Case where there are no matches
+Index: app/src/main/java/edu/gatech/seclass/glm/GroceryList.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/edu/gatech/seclass/glm/GroceryList.java	(revision 908c00c788e0790550fb6e19d73750a25da28428)
++++ app/src/main/java/edu/gatech/seclass/glm/GroceryList.java	(revision )
+@@ -12,7 +12,7 @@
+     private String name;
+     private boolean isSelected;
+     public ArrayList<Item> itemList;
+-    //DatabaseStore dbs = DatabaseStore.getInstance();
++    //DatabaseStore dbs = DatabaseStore.getInstance(getApplicationContext());
+ 
+     public GroceryList(String name, boolean isSelected) {
+         this.name = name;
+\ No newline at end of file
+Index: app/src/main/java/edu/gatech/seclass/glm/DatabaseStore.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/edu/gatech/seclass/glm/DatabaseStore.java	(revision 908c00c788e0790550fb6e19d73750a25da28428)
++++ app/src/main/java/edu/gatech/seclass/glm/DatabaseStore.java	(revision )
+@@ -1,7 +1,6 @@
+ package edu.gatech.seclass.glm;
+ 
+-import java.lang.reflect.Array;
+-import java.net.URL;
++import android.content.Context;
+ import java.util.ArrayList;
+ import java.util.Collections;
+ import java.util.Comparator;
+@@ -17,8 +16,11 @@
+ 
+     public static DatabaseStore dbStore = null;
+ 
+-    public DatabaseStore()
++    private Context context;
++
++    public DatabaseStore(Context context)
+     {
++        this.context = context;
+         itemTypes.append("Fruits");
+         itemTypes.append(", Cereal");
+         itemTypes.append(", Alcohol");
+@@ -31,8 +33,8 @@
+         populateDummyList();
+     }
+ 
+-    public static DatabaseStore getInstance() {
+-        if (dbStore == null) dbStore = new DatabaseStore();
++    public static DatabaseStore getInstance(Context context) {
++        if (dbStore == null) dbStore = new DatabaseStore(context);
+         return dbStore;
+     }
+ 
+@@ -125,8 +127,9 @@
+ 
+ 
+     public void populateDummyList() {
+-        //addItemsFromFile("initialItems.txt");
++        addItemsFromFile();
+         // need to set correct file path
++        /*
+         addItem("Apple", "Fruits", "Nos", 2, false, false);
+         addItem("Banana", "Fruits", "Nos", 2, false, false);
+         addItem("Orange", "Fruits",  "Nos", 2, false, false);
+@@ -141,51 +144,31 @@
+         addItem("Cheetos", "Snacks", "bags", 1, false, false);
+         addItem("Waffles", "FrozenFood", "servings", 1, false, false);
+         addItem("ClamChowder", "CannedFood", "cans", 1, false, false);
+-
++        */
+     }
+ 
+-    public void addItemsFromFile(String fileName)
+-    {
+-        BufferedReader br = null;
++    public void addItemsFromFile() {
++        String itemContent = null;
++        InputStream is = this.context.getResources().openRawResource(R.raw.initial_items);
+-        try{
++        try {
+-            // Todo: set correct file path
+-            String filename = "initialItems.txt";
+-            String workingDirectory = System.getProperty("user.dir");
+-            String absoluteFilePath = "";
+-            //absoluteFilePath = workingDirectory + System.getProperty("file.separator") + filename;
+-            absoluteFilePath = workingDirectory + File.separator + filename;
+-
+-            System.out.println("Final filepath : " + absoluteFilePath);
+-            File itemsFile = new File(absoluteFilePath);
+-            br = new BufferedReader(new FileReader(itemsFile));
+-
+-            //One way of reading the file
+-            System.out.println("Reading the file using readLine() method:");
+-            String contentLine = br.readLine();
+-            String[] itemAttr = contentLine.split(", ");
+-            while (contentLine != null) {
+-
++            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
++            if (context != null) {
++                while ((itemContent = reader.readLine()) != null) {
++                    String[] itemAttr = itemContent.split(", ");
+-                addItem(itemAttr[0], itemAttr[1], itemAttr[2], Double.parseDouble(itemAttr[3]),
+-                        Boolean.parseBoolean(itemAttr[4]), Boolean.parseBoolean(itemAttr[5]));
++                    addItem(itemAttr[0], itemAttr[1], itemAttr[2], Double.parseDouble(itemAttr[3]),
++                            Boolean.parseBoolean(itemAttr[4]), Boolean.parseBoolean(itemAttr[5]));
+-                System.out.println(contentLine);
+-                contentLine = br.readLine();
+-            }
+-        }
++                }
++            }
+-        catch (IOException ioe)
+-        {
+-            ioe.printStackTrace();
+         }
+-        finally
+-        {
++        catch (IOException e) {
++            System.out.println("IOException caught from trying to open initial_items.txt");
++        }
++        finally {
+             try {
+-                if (br != null)
+-                    br.close();
++                is.close();
+             }
+-            catch (IOException ioe)
+-            {
+-                System.out.println("Error in closing the BufferedReader");
++            catch (Throwable ignore) {
+             }
+         }
+     }
+-
+ }
+Index: app/src/main/java/edu/gatech/seclass/glm/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/edu/gatech/seclass/glm/MainActivity.java	(revision 908c00c788e0790550fb6e19d73750a25da28428)
++++ app/src/main/java/edu/gatech/seclass/glm/MainActivity.java	(revision )
+@@ -273,7 +273,7 @@
+             dbStore = gson.fromJson(json, type);
+             return dbStore;
+         } else{
+-            return DatabaseStore.getInstance();
++            return DatabaseStore.getInstance(context);
+         }
+ 
+     }
+Index: app/src/main/java/edu/gatech/seclass/glm/ViewItemTypeActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/edu/gatech/seclass/glm/ViewItemTypeActivity.java	(revision 908c00c788e0790550fb6e19d73750a25da28428)
++++ app/src/main/java/edu/gatech/seclass/glm/ViewItemTypeActivity.java	(revision )
+@@ -42,7 +42,7 @@
+     private void displayitemTypes() {
+         itemTypes = new ArrayList<String>();
+ 
+-        DatabaseStore dbStore = DatabaseStore.getInstance();
++        DatabaseStore dbStore = DatabaseStore.getInstance(getApplicationContext());
+         String[] itemTypes = dbStore.getItemTypes1();
+ //        itemTypes.addAll(dbStore.getItemTypes1());
+ 
+Index: app/src/main/java/edu/gatech/seclass/glm/AddItemActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/edu/gatech/seclass/glm/AddItemActivity.java	(revision 908c00c788e0790550fb6e19d73750a25da28428)
++++ app/src/main/java/edu/gatech/seclass/glm/AddItemActivity.java	(revision )
+@@ -71,13 +71,13 @@
+                 // Define intent, pass info and start ListActivity
+ 
+                 Item item = new Item(nameValue,typeValue,unitValue,quantityValue,false,false);
+-                DatabaseStore dbStore = DatabaseStore.getInstance();
++                DatabaseStore dbStore = DatabaseStore.getInstance(getApplicationContext());
+                 dbStore.addItem(item);
+                 MainActivity.storeDatabase(DatabaseStore.dbStore, getApplicationContext());
+                 MainActivity.groceryListMgr.get(selglPosition).addItem(item);
+                 Collections.sort(MainActivity.groceryListMgr.get(selglPosition).itemList);
+                 MainActivity.storeArrayVal(MainActivity.groceryListMgr, getApplicationContext());
+-                // When clicked, jump to the list actiivity
++                // When clicked, jump to the list activity
+                 Intent intent = new Intent(AddItemActivity.this, ListActivity.class);
+                 intent.putExtra("position", selglPosition);
+                 startActivity(intent);
+@@ -90,7 +90,7 @@
+     public void addItemsOnSpinner() {
+         typeSpinner = (Spinner) findViewById(R.id.typeSpinner);
+ 
+-        DatabaseStore dbStore = DatabaseStore.getInstance();
++        DatabaseStore dbStore = DatabaseStore.getInstance(getApplicationContext());
+         String[] itemTypes = dbStore.getItemTypes();
+ 
+         List<String> itemTypeList = new ArrayList<String>();

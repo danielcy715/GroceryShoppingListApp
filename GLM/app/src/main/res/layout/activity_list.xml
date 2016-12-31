@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="edu.gatech.seclass.glm.ListActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:id="@+id/view2">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view2"
+        android:weightSum="1">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.05">
+
+            <TextView
+                android:id="@+id/name1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:layout_marginLeft="2dp"
+                android:textAlignment="center"
+                android:textColor="@color/abc_input_method_navigation_guard"
+                android:textStyle="bold"
+                android:textSize="15dp"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/selectall" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/selectall"
+                android:checked="false"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="5dp" />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/checkall"
+                android:checked="false"
+                android:buttonTint="@color/colorPrimary"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="7dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quantity"
+                android:layout_marginLeft="2dp"
+                android:id="@+id/quant1"
+                android:textAlignment="center"
+                android:textColor="@color/abc_input_method_navigation_guard"
+                android:textStyle="bold"
+                android:textSize="15dp"
+                android:layout_marginStart="34dp"
+                android:layout_alignBaseline="@+id/name1"
+                android:layout_alignBottom="@+id/name1"
+                android:layout_toEndOf="@+id/name1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Unit"
+                android:layout_marginLeft="30dp"
+                android:id="@+id/unit1"
+                android:textColor="@color/abc_input_method_navigation_guard"
+                android:textStyle="bold"
+                android:textSize="15dp"
+                android:layout_marginEnd="19dp"
+                android:layout_alignTop="@+id/type"
+                android:layout_toStartOf="@+id/checkall" />
+
+            <TextView
+                android:text="Type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="@color/abc_input_method_navigation_guard"
+                android:id="@+id/type"
+                android:textStyle="bold"
+                android:layout_alignBottom="@+id/quant1"
+                android:layout_toEndOf="@+id/quant1"
+                android:layout_marginLeft="46dp" />
+
+
+        </RelativeLayout>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="456dp"
+            android:id="@+id/listView"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:descendantFocusability="blocksDescendants"
+            android:layout_weight="0.28" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

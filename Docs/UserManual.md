@@ -1,10 +1,3 @@
-# GroceryShoppingListApp
-
-This is the repository grocery shopping list android application. It is Georgia Tech CS6300 Software Development Process group project. 
-Below is the user manual. 
-
-
-
 # User Manual
 
 
@@ -141,6 +134,5 @@ Clicking on a particular list takes you to that list page. Here as obtainable in
 ## 4.0. Technical Support
 If you have any issues with using this app, kindly contact us on tech@glist.com.
 Your valuable comments and suggestions on this product is welcome
-
 
 

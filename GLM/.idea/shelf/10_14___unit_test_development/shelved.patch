@@ -1,0 +1,73 @@
+Index: app/src/androidTest/java/edu/gatech/seclass/glm/ApplicationTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/androidTest/java/edu/gatech/seclass/glm/ApplicationTest.java	(revision 34dd88b66bc87c1a9f63c76d9b3e01fa0c939dd0)
++++ app/src/androidTest/java/edu/gatech/seclass/glm/ApplicationTest.java	(revision )
+@@ -46,8 +46,8 @@
+ 
+     @Before
+     public void initItems() {
+-        newGList = "Laura's List";
+-        myItem = new Item("Cornflakes", "Cereal", "Box");
++        GroceryList newGList = new GroceryList("Laura's List", false);
++        Item myItem = new Item("Cornflakes", "Cereal", "Box", 3, false, false);
+     }
+ 
+     //helper matcher method to help with comparing output
+Index: app/src/main/java/edu/gatech/seclass/glm/DatabaseStore.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/edu/gatech/seclass/glm/DatabaseStore.java	(revision 34dd88b66bc87c1a9f63c76d9b3e01fa0c939dd0)
++++ app/src/main/java/edu/gatech/seclass/glm/DatabaseStore.java	(revision )
+@@ -102,7 +102,7 @@
+     }
+ 
+     // helper method
+-    private boolean isValidItemType(String type)
++    public boolean isValidItemType(String type)
+     {
+         boolean valid = false;
+         String[] types = getItemTypes();
+Index: app/src/test/java/edu/gatech/seclass/glm/ExampleUnitTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/test/java/edu/gatech/seclass/glm/ExampleUnitTest.java	(revision 34dd88b66bc87c1a9f63c76d9b3e01fa0c939dd0)
++++ app/src/test/java/edu/gatech/seclass/glm/ExampleUnitTest.java	(revision )
+@@ -16,9 +16,8 @@
+ 
+     @Before
+     public void setUp() {
+-        myGl = new GroceryList("Name of List", true);
+-        myCItem = new CheckListItem();
+-        myDB = DatabaseStore.getInstance();
++        GroceryList myGl = new GroceryList("Name of List", true);
++        DatabaseStore myDB = DatabaseStore.getInstance();
+     }
+ 
+     @After
+@@ -32,14 +31,15 @@
+     //TODO ensure both expected and return type are updated with current itemns
+     @Test
+     public void getItemTypes() {
+-        assertEquals("Fruit, Cereal, Alcohol", myDB.getItemTypes());
++        String[] itemTypes = {"Fruit", "Cereal", "Alcohol"};
++        assertEquals(itemTypes, myDB.getItemTypes());
+     }
+ 
+ 
+     @Test
+     public void addItemToDB() {
+-        myDB.addItem("Rice", "Cereal", "Kg");
+-        assertTrue(myDB.items.contains("Rice"));
++        myDB.addItem("Rice", "Cereal", "Kg", 3, false, false);
++        assertTrue(myDB.isValidItemType("Rice"));
+     }
+ 
+     @Test
+\ No newline at end of file

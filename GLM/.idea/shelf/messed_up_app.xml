@@ -1,0 +1,9 @@
+<changelist name="messed_up_app" date="1476467991557" recycled="false">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/messed_up_app/shelved.patch" />
+  <option name="DESCRIPTION" value="messed up app" />
+  <binary>
+    <option name="BEFORE_PATH" value=".idea/.name" />
+    <option name="AFTER_PATH" />
+    <option name="SHELVED_PATH" />
+  </binary>
+</changelist>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="6dip">
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_height="20dp"
+        android:text="Name"
+        android:layout_marginLeft="2dp"
+        android:textAlignment="viewStart"
+        android:textColor="@color/abc_input_method_navigation_guard"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_alignBaseline="@+id/checkBox1"
+        android:layout_alignBottom="@+id/checkBox1"
+        android:layout_toEndOf="@+id/checkBox1"
+        android:layout_width="80dp" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/checkBox2"
+        android:checked="false"
+        android:buttonTint="@color/colorPrimary"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:text="Unit"
+        android:id="@+id/unit1"
+        android:textColor="@color/abc_input_method_navigation_guard"
+        android:textAlignment="viewEnd"
+
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:layout_marginEnd="20dp"
+        android:layout_alignBaseline="@+id/checkBox2"
+        android:layout_alignBottom="@+id/checkBox2"
+        android:layout_toStartOf="@+id/checkBox2"
+        android:layout_width="40dp" />
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:text="Quantity"
+        android:layout_marginLeft="2dp"
+        android:id="@+id/quant1"
+        android:textAlignment="textStart"
+        android:textColor="@color/abc_input_method_navigation_guard"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:autoText="false"
+        android:layout_width="80dp"
+        android:layout_alignBaseline="@+id/name"
+        android:layout_alignBottom="@+id/name"
+        android:layout_toEndOf="@+id/name"
+        android:layout_marginStart="12dp" />
+
+    <TextView
+        android:text="Type"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="textStart"
+        android:textColor="@color/abc_input_method_navigation_guard"
+        android:id="@+id/type"
+        android:layout_alignBaseline="@+id/unit1"
+        android:layout_alignBottom="@+id/unit1"
+        android:layout_toStartOf="@+id/unit1" />
+
+    <CheckBox
+        android:id="@+id/checkBox1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:checked="false"
+        android:textAlignment="center"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+
+</RelativeLayout>
