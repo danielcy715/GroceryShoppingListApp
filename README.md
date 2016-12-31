@@ -62,54 +62,54 @@ User can launch the application by double clicking the application icon from the
 
 Once it launches it first lands in to the Grocery List Page where user can do Management of their Grocery List.
 
-![Grocery List Page](mockup/Docs/mockup//GroceryListsPage.png) 
+![Grocery List Page](Docs/mockup/GroceryListsPage.png) 
 
 User can Create a New Grocery List, Edit or Delete the Grocery List. User can click on a Menu with a ... on the right to get the list of menu items.
 
-![Grocery List Page](mockup/Docs/mockup//GroceryListsPage_withMenu.png) 
+![Grocery List Page](Docs/mockup/GroceryListsPage_withMenu.png) 
 
 User can select the list and delete one or all the list using the menu. 
 
 They can also click on the Edit to rename the List Name. 
 
-![Grocery List Page](mockup/Docs/mockup//GroceryListEditPage.png) 
+![Grocery List Page](Docs/mockup/GroceryListEditPage.png) 
 
 When a Add menu  is clicked it will allow users to create a new list.
 
-![Grocery List Page](mockup/Docs/mockup//GroceryListCreatePage.png) 
+![Grocery List Page](Docs/mockup/GroceryListCreatePage.png) 
 
 Here user can enter the name of the new List and click on OK to add the list to the existing List. 
 
 Clicking on the Grocery List will take them to the GroceryDetailListPage where it shows the Details of the Grocery List.
 
-![Grocery Detail List Page](mockup/Docs/mockup//GroceryDetailListPage.png) 
+![Grocery Detail List Page](Docs/mockup/GroceryDetailListPage.png) 
 
 From here user can do several operation like Deleting the items in the list,  checking the item in the list or change the quantity of item in this list. There is also provision for the user to do checkAll or uncheckAll by selecting the header on the table.
 
-![Grocery Detail List Page](mockup/Docs/mockup//GroceryDetailListPage_withMenu.png) 
+![Grocery Detail List Page](Docs/mockup/GroceryDetailListPage_withMenu.png) 
 
 User will click on Add By Type to Add an item to the list. 
 
-![Grocery Detail List Page](mockup/Docs/mockup//AddItemByTypePage.png) 
+![Grocery Detail List Page](Docs/mockup/AddItemByTypePage.png) 
 
 In this page user can either Select the type of the item they add.
 
 Once User selects the types then it will lead the user to the page to Select the name that is there in the database.
 
-![Grocery Detail List Page](mockup/Docs/mockup//AddItemByName.png) 
+![Grocery Detail List Page](Docs/mockup/AddItemByName.png) 
 
 User can select the item from this page and input the qantity to add the item to the Grocery List and user will be navigated back to the *GroceryDetailListPage*. 
 
 If user searches for a item from the * *GroceryDetailListPage* then it will launch a page which have the ability to search.
 
-![Grocery Detail List Page](mockup/Docs/mockup//SearchItemByName.png) 
+![Grocery Detail List Page](Docs/mockup/SearchItemByName.png) 
 
 This page shows the matching list. Users can select the list that can be added to the GroceryList.
 
-![Grocery Detail List Page](mockup/Docs/mockup//SearchItemByName_Add.png) 
+![Grocery Detail List Page](Docs/mockup/SearchItemByName_Add.png) 
 
 If the item is not found it will go to AddNewItemPage.
-![Grocery Detail List Page](mockup/Docs/mockup//AddNewItemPage.png) 
+![Grocery Detail List Page](Docs/mockup/AddNewItemPage.png) 
 
 Once the new Item page is clicked then it will have a option to select the type and once the type is selected it will navigate the screen back the the *GroceryDetailListPage* and will also add the new item to the Persistent Datastore.
 
