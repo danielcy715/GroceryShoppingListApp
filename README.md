@@ -35,7 +35,7 @@ The GroceryList requires persistence.
  
 The Item component provides an interface for the database. 
  
-![Component Diagram](componentDiagram.jpg)
+![Component Diagram](Docs/componentDiagram.jpg)
 
 ### 2.2 Deployment Diagram
 
@@ -43,7 +43,7 @@ The deployment diagram for this app is pretty simple since everything takes plac
 
 The android app would run inside an android device and android handles its own database.
 
-![Deployment Diagram](deploymentDiagram.jpg)
+![Deployment Diagram](Docs/deploymentDiagram.jpg)
 
 
 ## 3 Low-Level Design
@@ -51,7 +51,7 @@ The android app would run inside an android device and android handles its own d
 ### 3.1 Class Diagram
 
 
-![Team Design](teamdesign_ver2.JPG)
+![Team Design](Docs/teamdesign_ver2.JPG)
 
 
 ## 4 User Interface Design
