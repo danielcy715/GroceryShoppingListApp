@@ -51,7 +51,7 @@ The android app would run inside an android device and android handles its own d
 ### 3.1 Class Diagram
 
 
-![Team Design](Docs/teamdesign_ver2.JPG)
+![Team Design](Docs/teamDesign_ver2.JPG)
 
 
 ## 4 User Interface Design
