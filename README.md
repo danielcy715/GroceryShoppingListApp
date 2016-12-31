@@ -114,11 +114,3 @@ If the item is not found it will go to AddNewItemPage.
 Once the new Item page is clicked then it will have a option to select the type and once the type is selected it will navigate the screen back the the *GroceryDetailListPage* and will also add the new item to the Persistent Datastore.
 
 
-
-
-
-
-
-
-
-
